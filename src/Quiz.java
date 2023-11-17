@@ -36,16 +36,31 @@ public class Quiz implements ActionListener {
     }
 
     private void setupQuestion(int number) {
-        quizStyle.textField.setText("Question" + (number + 1));
-        quizStyle.textArea.setText(questions[number]);
-        for (int i = 0; i < labels.length; i++) {
-            labels[i].setForeground(Color.white);
-            labels[i].setText(options[number][i]);
+        if (index == (questions.length-1)){
+            displayResult();
+        }else {
+            quizStyle.textField.setText("Question" + (number + 1));
+            quizStyle.textArea.setText(questions[number]);
+            for (int i = 0; i < labels.length; i++) {
+                labels[i].setForeground(Color.white);
+                labels[i].setText(options[number][i]);
+            }
         }
+
     }
 
     private void displayResult() {
-
+        int percentage = (correctAnswers/questions.length)*100;
+        for (int i = 0; i<labels.length; i++){
+            buttons[i].setEnabled(false);
+            labels[i].setText("");
+        }
+        quizStyle.textField.setText("RESULTS!");
+        quizStyle.textArea.setText("");
+        quizStyle.correctAnswersNum.setText("("+correctAnswers+"/"+questions.length+")");
+        quizStyle.percentage.setText(String.valueOf(percentage));
+        quizStyle.frame.add(quizStyle.correctAnswersNum);
+        quizStyle.frame.add(quizStyle.percentage);
     }
 
     private void displayAnswer(int number) {
