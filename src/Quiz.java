@@ -27,16 +27,29 @@ public class Quiz implements ActionListener {
     int index = 0;
     int timeCounter = 10;
     String answered = "";
+    Timer timer = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            timeCounter--;
+            quizStyle.timerLabel.setText(String.valueOf(timeCounter));
+            if(timeCounter <= 0){
+                displayAnswer(index);
+            }
+
+        }
+    });
 
     Quiz() {
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].addActionListener(this);
         }
         setupQuestion(index);
+
     }
 
     private void setupQuestion(int number) {
-        if (index == (questions.length-1)){
+        System.out.println(index);
+        if (index == (questions.length)){
             displayResult();
         }else {
             quizStyle.textField.setText("Question" + (number + 1));
@@ -45,12 +58,15 @@ public class Quiz implements ActionListener {
                 labels[i].setForeground(Color.white);
                 labels[i].setText(options[number][i]);
             }
+            timer.start();
         }
+
 
     }
 
     private void displayResult() {
-        int percentage = (correctAnswers/questions.length)*100;
+        timer.stop();
+        double percentage = ((double)correctAnswers/(double)questions.length)*100;
         for (int i = 0; i<labels.length; i++){
             buttons[i].setEnabled(false);
             labels[i].setText("");
@@ -64,6 +80,7 @@ public class Quiz implements ActionListener {
     }
 
     private void displayAnswer(int number) {
+        timer.stop();
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setEnabled(false);
             if (buttons[i].getText() == answers[number]) {
@@ -72,22 +89,23 @@ public class Quiz implements ActionListener {
                 labels[i].setForeground(Color.red);
             }
         }
-        Timer pause = new Timer(2000, new ActionListener() {
+
+        Timer pause = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (index<questions.length-1){
-                    index++;
-                }
+
                 for (int i = 0; i < buttons.length; i++) {
                     buttons[i].setEnabled(true);
                     buttons[i].setBackground(new Color(25,25,25));
                     labels[i].setForeground(Color.white);
 
                 }
-                answered = "";
                 timeCounter = 10;
+                answered = "";
+                index++;
                 setupQuestion(index);
             }
+
         });
         pause.setRepeats(false);
         pause.start();;
@@ -105,6 +123,7 @@ public class Quiz implements ActionListener {
                     buttons[i].setBackground(Color.red);
                 }
                 displayAnswer(index);
+
             }
 
 
