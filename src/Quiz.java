@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 
 public class Quiz implements ActionListener {
     QuizStyle quizStyle = new QuizStyle();
+    JButton[] buttons = {quizStyle.buttonA,quizStyle.buttonB,quizStyle.buttonC,quizStyle.buttonD};
+    JLabel[] labels = {quizStyle.answerLabelA,quizStyle.answerLabelB,quizStyle.answerLabelC,quizStyle.answerLabelD};
+
     String[] questions =    {
                                 "What is the capital of Canada?",
                                 "What is capital of USA?",
@@ -17,12 +20,13 @@ public class Quiz implements ActionListener {
                                 {"156", "329", "195", "97"},
                                 {"English", "Chinese", "Spanish", "Hindi"},
                             };
-    char[] answers =    {
-                            'A','B','C','C'
+    String[] answers =    {
+                            "A","B","C","D"
                         };
     int correctAnswers = 0;
     int index = 0;
     int timeCounter = 10;
+    String answered = "";
     Quiz(){
         setupQuestion(index);
     }
@@ -43,23 +47,19 @@ public class Quiz implements ActionListener {
         quizStyle.buttonB.setEnabled(false);
         quizStyle.buttonC.setEnabled(false);
         quizStyle.buttonD.setEnabled(false);
-        if (answers[number] != 'A'){
-            quizStyle.answerLabelA.setForeground(Color.red);
-        }
-        if (answers[number] != 'B'){
-            quizStyle.answerLabelB.setForeground(Color.red);
-        }
-        if (answers[number] != 'C'){
-            quizStyle.answerLabelC.setForeground(Color.red);
-        }
-        if (answers[number] != 'D'){
-            quizStyle.answerLabelD.setForeground(Color.red);
-        }else{
-
+        for (int i = 0; i<buttons.length ; i++){
+            if (buttons[i].getText() == answers[number]){
+                labels[i].setForeground(Color.green);
+            }else{
+                labels[i].setForeground(Color.red);
+            }
         }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == quizStyle.buttonA){
+            answered = "A";
+        }
 
     }
 }
