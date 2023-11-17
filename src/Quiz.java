@@ -101,6 +101,7 @@ public class Quiz implements ActionListener {
 
                 }
                 timeCounter = 10;
+                quizStyle.timerLabel.setText(String.valueOf(timeCounter));
                 answered = "";
                 index++;
                 setupQuestion(index);
